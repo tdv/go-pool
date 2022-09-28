@@ -29,8 +29,10 @@ func (this *poolImpl) Go(task TaskFunc) {
 
 		select {
 		case this.slots <- struct{}{}:
-			task(ctx)
-			<-this.slots
+			if this.ctx.Err() == nil {
+				task(ctx)
+				<-this.slots
+			}
 		case <-this.ctx.Done():
 			return
 		}
@@ -39,7 +41,6 @@ func (this *poolImpl) Go(task TaskFunc) {
 
 func (this *poolImpl) Stop() {
 	this.cancel()
-	close(this.slots)
 	this.wg.Wait()
 }
 
