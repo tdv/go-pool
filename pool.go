@@ -11,10 +11,28 @@ import (
 	"sync"
 )
 
+// A TaskFunc is an func for execution, which will be executed
+// with respective concurrency limit.
+// The function gets a context, via which you can make
+// graceful cancelation within you function.
 type TaskFunc func(context.Context)
 
+// Conceptually, the Pool looks like a thread pool in the other languages,
+// but implemented on the goroutines.
+// The gist is to limit the number of the concurrent tasks
+// at the same time of execution.
 type Pool interface {
+	// Add a task into the pool.
+	//
+	// The task will executed in the normal flow
+	// or canceled if the pool is stopped (or context is canceled)
 	Go(task TaskFunc)
+
+	// Stopping executing any tasks.
+	//
+	// All tasks in the queue to execute will be canceled.
+	// The cancelation will propagate via the Context through all the tasks.
+	// Call the method only once for the instance.
 	Stop()
 }
 
@@ -50,6 +68,10 @@ func (this *poolImpl) Stop() {
 	this.wg.Wait()
 }
 
+// Create a new pool.
+//
+// the function gets context and a limit of
+// a number of the concurrent tasks.
 func New(ctx context.Context, capacity uint) Pool {
 	if capacity < 1 {
 		capacity = 1
