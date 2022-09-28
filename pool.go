@@ -1,3 +1,9 @@
+// Package:	go-pool (https://github.com/tdv/go-pool)
+// Created:	09.2022
+// Copyright 2022 Dmitry Tkachenko (tkachenkodmitryv@gmail.com)
+// Distributed under the MIT License
+// (See accompanying file LICENSE)
+
 package pool
 
 import (
