@@ -39,6 +39,7 @@ func (this *poolImpl) Go(task TaskFunc) {
 
 func (this *poolImpl) Stop() {
 	this.cancel()
+	close(this.slots)
 	this.wg.Wait()
 }
 
