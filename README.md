@@ -1,9 +1,11 @@
 # go-pool
-go-pool - is a library goroutine pools conceptually close to the thread pool in other languages.
+go-pool - is a little library goroutine pools conceptually close to the thread pool in other languages.
 
-The common gist is to limit concurrency and execute only limited number tasks at the time.
+The common gist is to limit concurrency and execute only a limited number of the tasks at the time.
 
-Goroutines are well done and appropriate for many tasks but sometime it is an issue. The run immediately after calling 'Go'  might reduce available of the other resources like DB for instance.
+Goroutines are well done and appropriate for many tasks but sometimes it is an issue. The run immediately after calling 'ao'  might reduce the availability of the other resources like DB for instance.
+
+
 
 There is an issue
 ```go
@@ -19,7 +21,7 @@ func doSomething(n int, connectionString string) {
 }
 
 func main() {
-  //Your DB has died. May be...
+  // Your DB has died. May be...
   doSomething(100500, "Does not metter")
   // ...
 }
@@ -50,8 +52,8 @@ func main() {
   p := pool.New(ctx, 5)
   defer p.Stop()
 
-  // There is no any problem.
-  // All will go through 5 DB connection.
+  // There is no problem.
+  // All will go through 5 DB connections.
   // DB will be healthy and your mind too.
   doSomething(p, 100500, "Does not metter")
   // ...
@@ -59,17 +61,15 @@ func main() {
 ```
 
 # Installation
-
 ```bash
 go get github.com/tdv/go-pool/pool
 ```
 
 # Examples
-
 ## Normal work
-[example1](https://github.com/tdv/go-pool/tree/main/examples/example1)
+[example1](https://github.com/tdv/go-pool/tree/main/examples/example1)  
 **Description**  
-The example demonstrates the normal work of the limited gorutine pool.
+The example demonstrates the normal work of the limited goroutine pool.  
 ```go
 package main
 
@@ -106,12 +106,11 @@ func main() {
   time.Sleep(time.Second)
   wg.Wait()
 }
-```
-
+```  
 ## Cancelation through the context
-[example2](https://github.com/tdv/go-pool/tree/main/examples/example2)
+[example2](https://github.com/tdv/go-pool/tree/main/examples/example2)  
 **Description**  
-The example demonstrates the cancelation of the work. In spite of expectation to see all 20 lines in terminal there will be only 10 (2 first pieces / portions) and the others will be canceled.
+The example demonstrates the cancellation of the work. In spite of the expectation to see all 20 lines in the terminal there will be only 10 (2 first pieces / portions) and the others will be canceled.  
 ```go
 package main
 
@@ -142,12 +141,11 @@ func main() {
 
   time.Sleep(time.Second * 10)
 }
-```
-
+```  
 ## Manual pool closing
-[example3](https://github.com/tdv/go-pool/tree/main/examples/example3)
+[example3](https://github.com/tdv/go-pool/tree/main/examples/example3)  
 **Description**  
-The example demonstrates how to decline all tasks in queue manually. In spite of expectation to see all 20 lines in terminal there will be only 5 (first 5 tasks have done before the pool is closed) and the others will be canceled.
+The example demonstrates how to decline all tasks in the queue manually. In spite of the expectation to see all 20 lines in the terminal there will be only 5 (first 5 tasks have been done before the pool is closed) and the others will be canceled.  
 ```go
 package main
 
@@ -176,7 +174,7 @@ func main() {
   time.Sleep(time.Second * 1)
   p.Stop()
 }
-```
+```  
 
 # Wrapping up
 Goroutines in Go are really useful, but sometimes we need to solve some design issues. The proposed library is one of many solutions.
