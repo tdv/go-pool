@@ -1,5 +1,5 @@
 # go-pool
-go-pool - is a little library goroutine pools conceptually close to the thread pool in other languages.
+go-pool - is a tiny library goroutine pools conceptually close to the thread pool in other languages.
 
 The common gist is to limit concurrency and execute only a limited number of the tasks at the time.
 

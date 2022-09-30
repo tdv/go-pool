@@ -12,9 +12,9 @@ import (
 )
 
 // A TaskFunc is an func for execution, which will be executed
-// with respective concurrency limit.
+// with respective concurrency limits.
 // The function gets a context, via which you can make
-// graceful cancelation within you function.
+// graceful cancellation within you function.
 type TaskFunc func(context.Context)
 
 // Conceptually, the Pool looks like a thread pool in the other languages,
@@ -31,8 +31,8 @@ type Pool interface {
 	// Stopping executing any tasks.
 	//
 	// All tasks in the queue to execute will be canceled.
-	// The cancelation will propagate via the Context through all the tasks.
-	// Call the method only once for the instance.
+	// The cancellation will propagate via the Context through all the tasks.
+	// Call the method only once for instance.
 	Stop()
 }
 
@@ -70,7 +70,7 @@ func (this *poolImpl) Stop() {
 
 // Create a new pool.
 //
-// the function gets context and a limit of
+// The function gets context and a limit of
 // a number of the concurrent tasks.
 func New(ctx context.Context, capacity uint) Pool {
 	if capacity < 1 {
