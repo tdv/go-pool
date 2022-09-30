@@ -12,7 +12,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/tdv/go-pool/pool"
+	"github.com/tdv/go-pool"
 )
 
 func main() {

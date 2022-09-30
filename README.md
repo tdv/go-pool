@@ -33,7 +33,7 @@ A proposed solution
 import (
   "context"
 
-  "github.com/tdv/go-pool/pool"
+  "github.com/tdv/go-pool"
 )
 
 func doSomething(p pool.Pool, n int, connectionString string) {
@@ -62,7 +62,7 @@ func main() {
 
 # Installation
 ```bash
-go get github.com/tdv/go-pool/pool
+go get -u github.com/tdv/go-pool
 ```
 
 # Examples
@@ -79,7 +79,7 @@ import (
   "sync"
   "time"
 
-  "github.com/tdv/go-pool/pool"
+  "github.com/tdv/go-pool"
 )
 
 func main() {
@@ -119,7 +119,7 @@ import (
   "fmt"
   "time"
 
-  "github.com/tdv/go-pool/pool"
+  "github.com/tdv/go-pool"
 )
 
 func main() {
@@ -154,7 +154,7 @@ import (
   "fmt"
   "time"
 
-  "github.com/tdv/go-pool/pool"
+  "github.com/tdv/go-pool"
 )
 
 func main() {
