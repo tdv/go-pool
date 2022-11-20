@@ -11,24 +11,24 @@ import (
 	"sync"
 )
 
-// A TaskFunc is an func for execution, which will be executed
+// A TaskFunc is a func for execution, which will be executed
 // with respective concurrency limits.
 // The function gets a context, via which you can make
 // graceful cancellation within you function.
 type TaskFunc func(context.Context)
 
-// Conceptually, the Pool looks like a thread pool in the other languages,
+// Pool - conceptually, the Pool looks like a thread pool in the other languages,
 // but implemented on the goroutines.
 // The gist is to limit the number of the concurrent tasks
 // at the same time of execution.
 type Pool interface {
-	// Add a task into the pool.
+	// Go - adds a task into the pool.
 	//
-	// The task will executed in the normal flow
+	// The task will execute in the normal flow
 	// or canceled if the pool is stopped (or context is canceled)
 	Go(task TaskFunc)
 
-	// Stopping executing any tasks.
+	// Stop - stops all tasks.
 	//
 	// All tasks in the queue to execute will be canceled.
 	// The cancellation will propagate via the Context through all the tasks.
@@ -43,32 +43,32 @@ type poolImpl struct {
 	wg     sync.WaitGroup
 }
 
-func (this *poolImpl) Go(task TaskFunc) {
-	this.wg.Add(1)
+func (s *poolImpl) Go(task TaskFunc) {
+	s.wg.Add(1)
 
-	ctx, cancel := context.WithCancel(this.ctx)
+	ctx, cancel := context.WithCancel(s.ctx)
 	go func() {
-		defer this.wg.Done()
+		defer s.wg.Done()
 		defer cancel()
 
 		select {
-		case this.slots <- struct{}{}:
-			if this.ctx.Err() == nil {
+		case s.slots <- struct{}{}:
+			if s.ctx.Err() == nil {
 				task(ctx)
-				<-this.slots
+				<-s.slots
 			}
-		case <-this.ctx.Done():
+		case <-s.ctx.Done():
 			return
 		}
 	}()
 }
 
-func (this *poolImpl) Stop() {
-	this.cancel()
-	this.wg.Wait()
+func (s *poolImpl) Stop() {
+	s.cancel()
+	s.wg.Wait()
 }
 
-// Create a new pool.
+// New - creates a new pool.
 //
 // The function gets context and a limit of
 // a number of the concurrent tasks.

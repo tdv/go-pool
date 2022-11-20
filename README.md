@@ -1,9 +1,11 @@
+[![build workflow](https://github.com/tdv/go-pool/actions/workflows/go.yml/badge.svg?event=push)](https://github.com/tdv/go-pool/actions)
+
 # go-pool
 go-pool - is a tiny library goroutine pools conceptually close to the thread pool in other languages.
 
 The common gist is to limit concurrency and execute only a limited number of the tasks at the time.
 
-Goroutines are well done and appropriate for many tasks but sometimes it is an issue. The run immediately after calling 'ao'  might reduce the availability of the other resources like DB for instance.
+Goroutines are well done and appropriate for many tasks, but sometimes it is an issue. The run immediately after calling 'ao'  might reduce the availability of the other resources like DB for instance.
 
 
 
@@ -22,7 +24,7 @@ func doSomething(n int, connectionString string) {
 
 func main() {
   // Your DB has died. May be...
-  doSomething(100500, "Does not metter")
+  doSomething(100500, "Does not matter")
   // ...
 }
 ```
@@ -55,7 +57,7 @@ func main() {
   // There is no problem.
   // All will go through 5 DB connections.
   // DB will be healthy and your mind too.
-  doSomething(p, 100500, "Does not metter")
+  doSomething(p, 100500, "Does not matter")
   // ...
 }
 ```
